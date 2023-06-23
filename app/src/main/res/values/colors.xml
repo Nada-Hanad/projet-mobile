@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primaryColor">#F2994A</color>
+    <color name="bottom_nav_inactive_color">#CCCCCC</color> <!-- Change this to your desired color for the inactive state -->
+
 </resources>

@@ -1,6 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Projetmobile" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+
         <!-- Primary brand color. -->
         <item name="colorPrimaryVariant">#EEA734</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -15,6 +17,9 @@
     <style name="Theme.Projetmobile.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+    <style name="BottomNavTextStyle" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/poppins</item>
     </style>
     <style name="Theme.Projetmobile.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.Projetmobile.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
