@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.projet_mobile.slider.IntroSlider
 import com.example.projet_mobile.slider.IntroSliderAdapter
