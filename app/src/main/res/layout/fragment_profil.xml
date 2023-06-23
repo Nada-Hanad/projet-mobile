@@ -47,13 +47,13 @@
         android:layout_marginBottom="8dp"
         android:text="Edit Picture"
         android:textColor="@color/primaryColor"
-        app:layout_constraintBottom_toTopOf="@+id/Nom_Prenom"
+        app:layout_constraintBottom_toTopOf="@+id/NomPrenom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileImage" />
 
     <TextView
-        android:id="@+id/Nom_Prenom"
+        android:id="@+id/NomPrenom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -87,7 +87,7 @@
         app:layout_constraintBottom_toTopOf="@+id/Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Nom_Prenom" />
+        app:layout_constraintTop_toBottomOf="@+id/NomPrenom" />
 
     <TextView
         android:id="@+id/Email"

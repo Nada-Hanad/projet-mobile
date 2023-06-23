@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.projet_mobile.login.LoginRepository
 import com.example.projet_mobile.login.Result
 
@@ -23,8 +25,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
         if (result is Result.Success) {
             _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = "Hasni"))
-
+                LoginResult(success = LoggedInUserView(displayName = "Hasni"));
         } else {
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }

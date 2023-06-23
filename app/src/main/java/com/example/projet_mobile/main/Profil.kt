@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.navigation.fragment.findNavController
+import com.example.projet_mobile.MainActivity
 import com.example.projet_mobile.R
 import com.example.projet_mobile.databinding.FragmentLoginBinding
 import com.example.projet_mobile.databinding.FragmentProfilBinding
 import com.example.projet_mobile.login.LoginFragment
+import com.google.firebase.auth.FirebaseAuth
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -19,8 +22,16 @@ class Profil : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var email: String
+    private lateinit var name: String
+    private lateinit var address: String
+    private lateinit var phone: String
+
+    private lateinit var auth : FirebaseAuth
+
     private var _binding: FragmentProfilBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,16 +39,32 @@ class Profil : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentProfilBinding.inflate(inflater, container, false)
         val view = binding.root
+     //   name="Hasni Zoumata"
+        address="Oran, Algerie"
+      //  email="jh_zoumata@esi.dz"
+        phone="0552833250"
 
-        // Set click listener for the logout button
+        val email = arguments?.getString("email")
+        val name = arguments?.getString("name")
+
+        binding.NomPrenom.text = name
+        binding.Adresse.text = address
+        binding.Email.text = email
+        binding.phoneNumber.text = phone
+
+        auth = FirebaseAuth.getInstance()
+
         binding.logout.setOnClickListener {
+            auth.signOut()
             findNavController().navigate(R.id.action_profil_to_home)
-         //   logout()
+            //   logout()
         }
 
         return view
