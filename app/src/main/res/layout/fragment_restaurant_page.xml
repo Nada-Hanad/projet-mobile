@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:paddingBottom="64dp"
+        tools:context=".main.restaurants_menu.RestaurantPage">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="326dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="34sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="92dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins"
+            android:text="TextView"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type"
+            app:srcCompat="@drawable/rating" />
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/poppins"
+            android:text="TextView"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/imageView6"
+            app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/delivery"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+        <TextView
+            android:id="@+id/delivery"
+            android:layout_width="90dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/poppins"
+            android:text="TextView"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+            app:layout_constraintStart_toEndOf="@+id/imageView7"
+            app:layout_constraintTop_toTopOf="@+id/imageView7" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:src="@drawable/time"
+            app:layout_constraintBottom_toBottomOf="@+id/delivery"
+            app:layout_constraintStart_toEndOf="@+id/delivery"
+            app:layout_constraintTop_toTopOf="@+id/delivery" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="89dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/poppins"
+            android:text="TextView"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+            app:layout_constraintStart_toEndOf="@+id/imageView8"
+            app:layout_constraintTop_toTopOf="@+id/imageView8" />
+
+        <!-- Existing views omitted for brevity -->
+
+        <TextView
+            android:id="@+id/menu"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/poppins"
+            android:text="Menu"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mailIcon" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/menuItemsRecyclerView"
+            android:layout_width="395dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menu" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:progressTint="@color/primaryColor"
+            android:progressBackgroundTint="#ccc"
+            android:indeterminateTint="#ccc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <EditText
+            android:id="@+id/reviewEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/textview_border"
+            android:hint="Write a review"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/poppins"
+            android:text="Rate Restaurant"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuItemsRecyclerView" />
+
+        <Button
+            android:id="@+id/submitReviewButton"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#EEA734"
+            android:iconTint="@color/white"
+            android:text="Submit Review"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reviewEditText" />
+
+
+        <ImageView
+            android:id="@+id/fbIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#FFFFFF"
+            android:src="@drawable/facebookicon"
+            app:layout_constraintBottom_toBottomOf="@+id/mailIcon"
+            app:layout_constraintEnd_toStartOf="@+id/mailIcon"
+            app:layout_constraintTop_toTopOf="@+id/mailIcon" />
+
+        <ImageView
+            android:id="@+id/mailIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#FFFFFF"
+            android:src="@drawable/mailicon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/delivery" />
+
+        <ImageView
+            android:id="@+id/phoneIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="32dp"
+            android:backgroundTint="#FFFFFF"
+            android:src="@drawable/phoneicon"
+            app:layout_constraintBottom_toBottomOf="@+id/mailIcon"
+            app:layout_constraintStart_toEndOf="@+id/mailIcon"
+            app:layout_constraintTop_toTopOf="@+id/mailIcon" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

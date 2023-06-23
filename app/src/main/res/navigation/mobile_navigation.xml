@@ -13,18 +13,21 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_restaurantFragment"
+            app:destination="@id/restaurantFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.projet_mobile.main.Search"
+        android:name="com.example.projet_mobile.main.AllOrders"
         android:label="title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_all_orders" />
     <fragment
         android:id="@+id/navigation_orders"
-        android:name="com.example.projet_mobile.main.Orders"
-        android:label="@string/title_orders"
-        tools:layout="@layout/fragment_orders" />
+        android:name="com.example.projet_mobile.main.Cart"
+        android:label="@string/title_cart"
+        tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.projet_mobile.main.Home"
@@ -49,6 +52,7 @@
             app:destination="@id/loginFragment" />
     </fragment>
 
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.projet_mobile.login.LoginFragment"
@@ -61,6 +65,22 @@
             android:id="@+id/action_loginFragment_to_register"
             app:destination="@id/register" />
     </fragment>
+    <fragment
+        android:id="@+id/restaurantFragment"
+        android:name="com.example.projet_mobile.main.restaurants_menu.RestaurantPage"
+        android:label="Restaurant"
+        tools:layout="@layout/fragment_restaurant_page">
+        <action
+            android:id="@+id/action_go_to_menu_details"
+            app:destination="@id/menu_details" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/menu_details"
+        android:name="com.example.projet_mobile.main.restaurants_menu.menu.MenuDetails"
+        android:label="Menu"
+        tools:layout="@layout/fragment_menu_details">
 
 
+    </fragment>
 </navigation>
