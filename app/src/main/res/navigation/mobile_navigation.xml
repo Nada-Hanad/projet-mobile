@@ -59,8 +59,23 @@
             app:destination="@id/navigation_home" />
         <action
             android:id="@+id/action_loginFragment_to_register"
-            app:destination="@id/register" />
+            app:destination="@id/register">
+            <argument
+                android:name="name"
+                app:argType="string" />
+            <argument
+                android:name="adresse"
+                app:argType="string" />
+            <argument
+                android:name="email"
+                app:argType="string" />
+            <argument
+                android:name="phone"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_loginFragment_to_profil"
+            app:destination="@id/navigation_profil" />
     </fragment>
-
 
 </navigation>

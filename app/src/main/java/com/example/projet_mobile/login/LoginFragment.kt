@@ -1,5 +1,6 @@
 package com.example.projet_mobile.login
 
+import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,10 +14,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
+import com.example.projet_mobile.MainActivity
 import com.example.projet_mobile.R
 import com.example.projet_mobile.RegisterFragment
 import com.example.projet_mobile.databinding.FragmentLoginBinding
+import com.example.projet_mobile.main.Profil
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import java.io.FileDescriptor.out
+import java.lang.System.out
+
 
 class LoginFragment : Fragment() {
 
@@ -26,6 +41,8 @@ class LoginFragment : Fragment() {
     // onDestroyView.
     private val _binding get() = binding!!
 
+    private lateinit var auth : FirebaseAuth
+    private lateinit var googleSignInClient : GoogleSignInClient
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,11 +51,66 @@ class LoginFragment : Fragment() {
     ): View? {
         binding = FragmentLoginBinding.inflate(layoutInflater)
         val view = binding.root
-        binding.login.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_navigation_home)
+        auth = FirebaseAuth.getInstance()
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(requireContext() , gso)
+        binding.Logingoogle.setOnClickListener {
+            println("hhhhh")
+            signInGoogle()
         }
         // Inflate the layout for this fragment
         return view
+    }
+    private fun signInGoogle(){
+        val signInIntent = googleSignInClient.signInIntent
+        launcher.launch(signInIntent)
+    }
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            result ->
+        if (result.resultCode == Activity.RESULT_OK){
+
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            handleResults(task)
+        }
+    }
+
+    private fun handleResults(task: Task<GoogleSignInAccount>) {
+        if (task.isSuccessful){
+            val account : GoogleSignInAccount? = task.result
+            if (account != null){
+                updateUI(account)
+            }
+        }else{
+            Toast.makeText((requireContext()), task.exception.toString() , Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun updateUI(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken , null)
+        auth.signInWithCredential(credential).addOnCompleteListener {
+            if (it.isSuccessful){
+                val intent : Intent = Intent(requireContext() , MainActivity::class.java)
+                intent.putExtra("email" , account.email)
+                intent.putExtra("name" , account.displayName)
+             //   startActivity(intent)
+                val email = account.email
+                val name = account.displayName
+
+                val bundle = Bundle()
+                bundle.putString("email", email)
+                bundle.putString("name", name)
+                val profilFragment = Profil()
+                profilFragment.arguments = bundle
+                findNavController().navigate(R.id.action_loginFragment_to_profil, bundle)
+            }else{
+                Toast.makeText(requireContext(), it.exception.toString() , Toast.LENGTH_SHORT).show()
+
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -123,6 +195,7 @@ class LoginFragment : Fragment() {
         // TODO : initiate successful logged in experience
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+        findNavController().navigate(R.id.action_loginFragment_to_profil)
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
