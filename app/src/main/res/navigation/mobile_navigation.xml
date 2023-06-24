@@ -37,9 +37,9 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.projet_mobile.main.Home"
+        android:name="com.example.projet_mobile.main.NotificationPage"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_notification_page" />
     <fragment
         android:id="@+id/navigation_profil"
         android:name="com.example.projet_mobile.main.Profil"

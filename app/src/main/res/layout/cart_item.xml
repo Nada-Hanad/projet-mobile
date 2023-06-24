@@ -75,7 +75,7 @@
                 android:id="@+id/deleteButton"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginLeft="80dp"
+                android:layout_marginLeft="32dp"
                 android:contentDescription="Delete"
                 android:src="@drawable/delicon" />
 
