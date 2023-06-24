@@ -36,21 +36,20 @@ class MenuDetails : Fragment() {
         myModel = ViewModelProvider(requireActivity()).get(MyModel::class.java)
 
         val menu = myModel.selectedMenuItem
-        binding.name.text = menu?.name
+        binding.name.text = menu?.itemName
         binding.price.text = "${menu?.price} $"
-        binding.description.text = menu?.description
+        binding.description.text = menu?.itemDescription
         binding.quantity.text = "1"
         binding.totalPrice.text = "Total Price: ${menu?.price} $"
-        Picasso.get().load(menu?.photo).into(binding.image)
+        Picasso.get().load(menu?.picture).into(binding.image)
 
         binding.addToCartButton.setOnClickListener {
             val orderItem = OrderItem(
-                menu!!.name,
-                menu!!.photo,
+                menu!!.itemName,
+                menu!!.picture,
                 menu!!.price,
-                menu!!.description,
+                menu!!.itemDescription,
                 quantity,
-                menu!!.restaurantId,
                 binding.note.text.toString()
             )
 

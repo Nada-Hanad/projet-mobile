@@ -6,13 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mynavigation.retrofit.Endpoint
+import com.example.mynavigation.retrofit.Order
+import com.example.mynavigation.retrofit.OrderRequest
+import com.example.projet_mobile.R
 import com.example.projet_mobile.databinding.FragmentCartBinding
 import com.example.projet_mobile.main.restaurants_menu.MyModel
 import com.example.projet_mobile.main.restaurants_menu.OrderItem
+import com.example.projet_mobile.main.restaurants_menu.reviews.ReviewAdapter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Cart : Fragment() {
     private lateinit var binding: FragmentCartBinding
@@ -30,7 +41,7 @@ class Cart : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myModel = ViewModelProvider(requireActivity()).get(MyModel::class.java)
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        binding.ordersList.layoutManager = LinearLayoutManager(requireActivity())
 
         val cartContent = loadCartContentFromLocalStorage()
         adapter = CartItemAdapter(
@@ -54,17 +65,59 @@ class Cart : Fragment() {
         )
 
         binding.validateOrderButton.setOnClickListener {
-            // Perform order validation logic here
+            val total = cartContent.sumOf { it.price * it.quantity }
+            val deliveryAddress = binding.etDeliveryAddress.text.toString().trim()
+            val deliveryNote = binding.orderNotes.text.toString().trim()
+            val items = loadCartContentFromLocalStorage()
+            val req = OrderRequest(
+                items,
+                total,
+                deliveryAddress,
+                deliveryNote)
+            if (deliveryAddress.isNotEmpty()) {
 
-            // Clear the cart content in local storage
-            clearCartContentFromLocalStorage()
+                CoroutineScope(Dispatchers.Main).launch {
+                    try {
+                        // Call the suspend function within the coroutine context
+                        val response = withContext(Dispatchers.IO) {
+                            Endpoint.createEndpoint().submitOrder(req)
+                        }
 
-            // Update the UI
-            cartContent.clear()
-            binding.recyclerView.adapter?.notifyDataSetChanged()
-            binding.total.text = "Total: 0 DA"
+                        if (response.isSuccessful) {
+                            val deliveryInfo = response.body()
+                            Toast.makeText(requireContext(), "Order Placed", Toast.LENGTH_SHORT).show()
+
+                            // Update the restaurant object in the view model
+                            myModel.deliveryInfo = deliveryInfo!!
+                            clearCartContentFromLocalStorage()
+
+                            // Update the UI
+                            cartContent.clear()
+                            binding.ordersList.adapter?.notifyDataSetChanged()
+                            binding.total.text = "Total: 0 DA"
+                            binding.etDeliveryAddress.setText("")
+                            binding.orderNotes.setText("")
+                            findNavController().navigate(R.id.action_navigation_cart_to_order)
+
+                        } else {
+                            Toast.makeText(requireContext(), "An error has occurred!", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(requireContext(), "An error has occurred!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            }else{
+                Toast.makeText(requireContext(), "Please enter a delivery address", Toast.LENGTH_SHORT).show()
+            }
+
+
+
+
+
+
         }
-        binding.recyclerView.adapter = adapter
+        binding.ordersList.adapter = adapter
 
         updateTotal()
     }

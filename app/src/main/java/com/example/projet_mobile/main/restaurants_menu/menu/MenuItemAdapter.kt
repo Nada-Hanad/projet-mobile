@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projet_mobile.databinding.MenuItemItemBinding
+import com.example.projet_mobile.main.restaurants_menu.Menu
 import com.example.projet_mobile.main.restaurants_menu.MenuItem
 import com.squareup.picasso.Picasso
 
 class MenuItemAdapter(
-    val data: List<MenuItem>,
-    val onItemClick: (menuItem: MenuItem) -> Unit // Callback function for item click
+    val data: List<Menu>,
+    val onItemClick: (menuItem: Menu) -> Unit // Callback function for item click
 ) : RecyclerView.Adapter<MenuItemAdapter.MyMenuViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyMenuViewHolder {
         return MyMenuViewHolder(MenuItemItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -28,10 +29,10 @@ class MenuItemAdapter(
         holder.binding.apply {
 
             // Set data to views
-            itemName.text = data[position].name
+            itemName.text = data[position].itemName
             itemPrice.text = data[position].price.toString() + "DA"
-            itemDescription.text = data[position].description
-            Picasso.get().load(data[position].photo).into(itemImage)
+            itemDescription.text = data[position].itemDescription
+            Picasso.get().load(data[position].picture).into(itemImage)
 
 
 

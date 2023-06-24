@@ -145,9 +145,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:progressTint="@color/primaryColor"
-            android:progressBackgroundTint="#ccc"
+            android:layout_marginBottom="16dp"
             android:indeterminateTint="#ccc"
+            android:progressBackgroundTint="#ccc"
+            android:progressTint="@color/primaryColor"
+            app:layout_constraintBottom_toTopOf="@+id/reviewEditText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
@@ -160,12 +162,14 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/textview_border"
             android:hint="Write a review"
             android:padding="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/submitReviewButton"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 
@@ -190,11 +194,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
             android:backgroundTint="#EEA734"
             android:iconTint="@color/white"
             android:text="Submit Review"
             android:textColor="@color/white"
             android:textSize="17sp"
+            app:layout_constraintBottom_toTopOf="@+id/reviewList"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
@@ -205,12 +211,13 @@
             android:id="@+id/fbIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginTop="32dp"
             android:backgroundTint="#FFFFFF"
             android:src="@drawable/facebookicon"
-            app:layout_constraintBottom_toBottomOf="@+id/mailIcon"
             app:layout_constraintEnd_toStartOf="@+id/mailIcon"
-            app:layout_constraintTop_toTopOf="@+id/mailIcon" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/mapButton"
+            app:layout_constraintTop_toBottomOf="@+id/delivery" />
 
         <ImageView
             android:id="@+id/mailIcon"
@@ -219,19 +226,45 @@
             android:layout_marginTop="32dp"
             android:backgroundTint="#FFFFFF"
             android:src="@drawable/mailicon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/phoneIcon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/fbIcon"
             app:layout_constraintTop_toBottomOf="@+id/delivery" />
 
         <ImageView
             android:id="@+id/phoneIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:backgroundTint="#FFFFFF"
             android:src="@drawable/phoneicon"
-            app:layout_constraintBottom_toBottomOf="@+id/mailIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/mailIcon"
-            app:layout_constraintTop_toTopOf="@+id/mailIcon" />
+            app:layout_constraintTop_toBottomOf="@+id/delivery" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submitReviewButton" />
+
+        <ImageView
+            android:id="@+id/mapButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/markericon"
+            app:layout_constraintEnd_toStartOf="@+id/fbIcon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/delivery" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -24,10 +24,10 @@ class RestaurentAdapter(
             name.text = data[position].name
             Picasso.get().load(data[position].logo).into(image)
 
-            Picasso.get().load(data[position].image).into(image);
+            Picasso.get().load(data[position].logo).into(image);
+            rating.text = String.format("%.1f", data[position].averageRating)
 
-            rating.text = data[position].rating.toString()
-            type.text = data[position].type
+            type.text = data[position].cuisineType
 
 
 

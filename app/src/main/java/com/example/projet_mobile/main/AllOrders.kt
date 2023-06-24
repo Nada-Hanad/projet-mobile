@@ -6,98 +6,95 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.mynavigation.retrofit.Endpoint
 import com.example.projet_mobile.R
 import com.example.projet_mobile.databinding.FragmentAllOrdersBinding
+import com.example.projet_mobile.main.orders.OrderAdapter
 import com.example.projet_mobile.main.restaurants_menu.MyModel
-import com.example.projet_mobile.main.restaurants_menu.OrderItem
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AllOrders : Fragment() {
+
+    lateinit var progressBar: ProgressBar
+    lateinit var recyclerView: RecyclerView
+
     private lateinit var binding: FragmentAllOrdersBinding
-    private lateinit var myModel: MyModel
-    private lateinit var adapter: CartItemAdapter
+
+    lateinit var myModel: MyModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAllOrdersBinding.inflate(inflater, container, false)
-        return binding.root
+        // Inflate the layout for this fragment
+        binding = FragmentAllOrdersBinding.inflate(layoutInflater)
+        val view = binding.root
+
+
+        binding.ordersCardsList.layoutManager = LinearLayoutManager(requireActivity())
+
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myModel = ViewModelProvider(requireActivity()).get(MyModel::class.java)
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        progressBar = binding.pBar
+        recyclerView = binding.ordersCardsList
+        loadOrders();
 
-        val cartContent = loadCartContentFromLocalStorage()
-        adapter = CartItemAdapter(
-            requireContext(),
-            cartContent,
-            { cartItem ->
-                // Item click logic here if needed
-            },
-            { cartItem ->
-                // Delete item logic here
-                cartContent.remove(cartItem)
-                adapter.notifyDataSetChanged()
-                updateTotal()
-                saveCartContentToLocalStorage(cartContent)
-            },
-            {
-                // Quantity change logic here
-                updateTotal()
-                saveCartContentToLocalStorage(cartContent)
+
+    }
+
+    fun loadOrders() {
+        val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            requireActivity().runOnUiThread {
+                progressBar.visibility = View.INVISIBLE
+                Toast.makeText(requireActivity(), "Une erreur s'est  ", Toast.LENGTH_SHORT).show()
             }
-        )
-
-        binding.validateOrderButton.setOnClickListener {
-            // Perform order validation logic here
-
-            // Clear the cart content in local storage
-            clearCartContentFromLocalStorage()
-
-            // Update the UI
-            cartContent.clear()
-            binding.recyclerView.adapter?.notifyDataSetChanged()
-            binding.total.text = "Total: 0 DA"
         }
-        binding.recyclerView.adapter = adapter
 
-        updateTotal()
+        progressBar.visibility = View.VISIBLE
+
+        CoroutineScope(Dispatchers.Main).launch(exceptionHandler) {
+            try {
+                val response = Endpoint.createEndpoint().getOrder(
+//                    myModel.user.value!!.id
+                    "6496343b164ec75796087492"
+                )
+
+
+                if (response.isSuccessful && response.body() != null) {
+                    val ordersResponse = response.body()!!
+                    //print response
+
+
+                    recyclerView.adapter = OrderAdapter( ordersResponse.toMutableList() )
+                    progressBar.visibility = View.INVISIBLE
+                } else {
+                    Toast.makeText(requireActivity(), "Une erreur s'est produite", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                progressBar.visibility = View.INVISIBLE
+                val errorMessage = "Une erreur s'est produite: ${e.message}"
+                Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
-    private fun updateTotal() {
-        val cartContent = loadCartContentFromLocalStorage()
-        val total = cartContent.sumOf { it.price * it.quantity }
-        binding.total.text = "Total: $total DA"
-    }
 
-    private fun saveCartContentToLocalStorage(cartContent: List<OrderItem>) {
-        val gson = Gson()
-        val json = gson.toJson(cartContent)
 
-        val sharedPreferences = requireContext().getSharedPreferences("Cart", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("cartContent", json)
-        editor.apply()
-    }
 
-    private fun loadCartContentFromLocalStorage(): MutableList<OrderItem> {
-        val sharedPreferences = requireContext().getSharedPreferences("Cart", Context.MODE_PRIVATE)
-        val json = sharedPreferences.getString("cartContent", null)
-        val gson = Gson()
-        val itemType = object : TypeToken<MutableList<OrderItem>>() {}.type
-
-        return gson.fromJson(json, itemType) ?: mutableListOf()
-    }
-    private fun clearCartContentFromLocalStorage() {
-        val sharedPreferences = requireContext().getSharedPreferences("Cart", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.remove("cartContent")
-        editor.apply()
-    }
 }
