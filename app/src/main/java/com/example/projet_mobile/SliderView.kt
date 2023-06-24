@@ -60,6 +60,7 @@ class SliderView : AppCompatActivity() {
         })
         val btnNavigate: Button = findViewById(R.id.started)
         btnNavigate.setOnClickListener {
+         //go to login fragment
             val intent = Intent(this, NavigationActivity::class.java)
             startActivity(intent)
         }

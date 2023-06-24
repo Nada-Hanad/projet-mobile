@@ -16,11 +16,13 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
+import com.example.mynavigation.retrofit.Endpoint
 import com.example.projet_mobile.MainActivity
 import com.example.projet_mobile.R
 import com.example.projet_mobile.RegisterFragment
 import com.example.projet_mobile.databinding.FragmentLoginBinding
 import com.example.projet_mobile.main.Profil
+import com.example.projet_mobile.main.restaurants_menu.MyModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -29,6 +31,10 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.FileDescriptor.out
 import java.lang.System.out
 
@@ -37,6 +43,8 @@ class LoginFragment : Fragment() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: FragmentLoginBinding
+    lateinit var myModel: MyModel
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val _binding get() = binding!!
@@ -59,7 +67,6 @@ class LoginFragment : Fragment() {
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireContext() , gso)
         binding.Logingoogle.setOnClickListener {
-            println("hhhhh")
             signInGoogle()
         }
         // Inflate the layout for this fragment
@@ -99,6 +106,7 @@ class LoginFragment : Fragment() {
              //   startActivity(intent)
                 val email = account.email
                 val name = account.displayName
+                Toast.makeText(requireContext(), email , Toast.LENGTH_SHORT).show()
 
                 val bundle = Bundle()
                 bundle.putString("email", email)
@@ -182,11 +190,44 @@ class LoginFragment : Fragment() {
 
         loginButton.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
-            /* loginViewModel.login(
-                 usernameEditText.text.toString(),
-                 passwordEditText.text.toString()
-             )*/
-            findNavController().navigate(R.id.login)
+            val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireActivity(), "Une erreur s'est  ", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            myModel = ViewModelProvider(requireActivity()).get(MyModel::class.java)
+
+            CoroutineScope(Dispatchers.Main).launch(exceptionHandler) {
+                try {
+                    val response = Endpoint.createEndpoint().loginUser(
+                        Endpoint.LoginRequest(
+                            usernameEditText.text.toString(),
+                            passwordEditText.text.toString()
+                        )
+                    )
+
+
+                    if (response.isSuccessful && response.body() != null) {
+                        val userResponse = response.body()!!
+                        myModel.user = userResponse.user
+                        Toast.makeText(requireActivity(), "Logged In successfully", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_loginFragment_to_navigation_home)
+                        loadingProgressBar.visibility = View.INVISIBLE
+
+                    } else {
+                        loadingProgressBar.visibility = View.INVISIBLE
+
+                        Toast.makeText(requireActivity(), "Une erreur s'est produite", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    loadingProgressBar.visibility = View.INVISIBLE
+
+                    val errorMessage = "Une erreur s'est produite: ${e.message}"
+                    Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
     }
 

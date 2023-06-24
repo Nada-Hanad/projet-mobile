@@ -37,10 +37,47 @@ interface Endpoint {
     suspend fun getOrder(
         @Path("id") id: String
     ): Response<List<OrderByUserResponse>>
+    @POST("api/users/register")
+    suspend fun registerUser(
+        @Body registerRequest: RegisterRequest
+    ): Response<AuthResponse>
+    @POST("api/users/login")
+    suspend fun loginUser(
+        @Body loginRequest: LoginRequest
+    ): Response<AuthResponse>
+
+    data class LoginRequest (
+        val email: String,
+        val password: String
+ )
+
+    data class RegisterRequest(
+        val name: String,
+        val email: String,
+        val password: String,
+        val address: String,
+        val phone: String
+    )
+    data class User(
+        val name: String,
+        val email: String,
+        val password: String,
+        val address: String,
+        val phone: String,
+        val notifications: List<Any>,
+        val orders: List<Any>,
+        val isLoggedIn: Boolean,
+        val _id: String,
+    )
+
+    data class AuthResponse(
+        val message: String,
+        val user: User
+    )
 
 
     companion object {
-        private const val BASE_URL = "https://1802-105-235-130-0.eu.ngrok.io"
+        private const val BASE_URL = "https://78f6-105-235-130-0.eu.ngrok.io"
         private var endpoint: Endpoint? = null
 
         fun createEndpoint(): Endpoint {
@@ -64,7 +101,8 @@ data class OrderRequest (
     val totalAmount: Double,
     val deliveryAddress: String,
     val deliveryNote: String,
-    val status : String = "Pending"
+    val status : String = "Pending",
+    val userId : String,
 )
 
 

@@ -7,9 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
     <FrameLayout
-        android:id="@+id/loginContainer"
+        android:id="@+id/lcontainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
 
     <Button
         android:id="@+id/started"

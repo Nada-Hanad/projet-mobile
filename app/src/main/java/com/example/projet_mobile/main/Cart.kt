@@ -73,7 +73,10 @@ class Cart : Fragment() {
                 items,
                 total,
                 deliveryAddress,
-                deliveryNote)
+                deliveryNote,
+                "Pending",
+                myModel.user!!._id
+            )
             if (deliveryAddress.isNotEmpty()) {
 
                 CoroutineScope(Dispatchers.Main).launch {
@@ -97,7 +100,10 @@ class Cart : Fragment() {
                             binding.total.text = "Total: 0 DA"
                             binding.etDeliveryAddress.setText("")
                             binding.orderNotes.setText("")
+
+
                             findNavController().navigate(R.id.action_navigation_cart_to_order)
+
 
                         } else {
                             Toast.makeText(requireContext(), "An error has occurred!", Toast.LENGTH_SHORT).show()

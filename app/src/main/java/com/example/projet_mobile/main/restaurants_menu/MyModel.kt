@@ -1,6 +1,7 @@
 package com.example.projet_mobile.main.restaurants_menu
 
 import androidx.lifecycle.ViewModel
+import com.example.mynavigation.retrofit.Endpoint
 import com.example.mynavigation.retrofit.OrderResponse
 
 class MyModel:ViewModel() {
@@ -9,6 +10,7 @@ class MyModel:ViewModel() {
     var cartContent = mutableListOf<OrderItem>()
     var deliveryInfo : OrderResponse? = null
     var ordersCard : MutableList<OrderResponse> = mutableListOf()
+    var user : Endpoint.User? = null
 }
 
 

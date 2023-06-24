@@ -163,7 +163,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="8dp"
-        android:enabled="false"
         android:text="REGISTER"
         android:textColor="@color/white"
         android:textSize="14sp"
@@ -183,7 +182,6 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="48dp"
-        android:enabled="false"
         app:icon="@drawable/googlepng"
         app:iconGravity="textStart"
         android:text="GOOGLE"
@@ -196,4 +194,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

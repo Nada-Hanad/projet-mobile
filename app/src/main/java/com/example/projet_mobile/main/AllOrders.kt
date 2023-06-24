@@ -71,8 +71,7 @@ class AllOrders : Fragment() {
         CoroutineScope(Dispatchers.Main).launch(exceptionHandler) {
             try {
                 val response = Endpoint.createEndpoint().getOrder(
-//                    myModel.user.value!!.id
-                    "6496343b164ec75796087492"
+                    myModel.user!!._id
                 )
 
 
