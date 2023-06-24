@@ -53,6 +53,7 @@ class AllOrders : Fragment() {
         myModel = ViewModelProvider(requireActivity()).get(MyModel::class.java)
         progressBar = binding.pBar
         recyclerView = binding.ordersCardsList
+
         loadOrders();
 
 

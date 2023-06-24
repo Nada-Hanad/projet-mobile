@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.projet_mobile.MainActivity
 import com.example.projet_mobile.R
 import com.example.projet_mobile.databinding.FragmentLoginBinding
 import com.example.projet_mobile.databinding.FragmentProfilBinding
 import com.example.projet_mobile.login.LoginFragment
+import com.example.projet_mobile.main.restaurants_menu.MyModel
 import com.google.firebase.auth.FirebaseAuth
 
 private const val ARG_PARAM1 = "param1"
@@ -46,10 +48,10 @@ class Profil : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentProfilBinding.inflate(inflater, container, false)
         val view = binding.root
-     //   name="Hasni Zoumata"
-        address="Oran, Algerie"
-      //  email="jh_zoumata@esi.dz"
-        phone="0552833250"
+        //   name="Hasni Zoumata"
+        address=""
+        //  email="jh_zoumata@esi.dz"
+        phone=""
 
         val email = arguments?.getString("email")
         val name = arguments?.getString("name")
@@ -58,6 +60,16 @@ class Profil : Fragment() {
         binding.Adresse.text = address
         binding.Email.text = email
         binding.phoneNumber.text = phone
+
+        var myModel = ViewModelProvider(requireActivity()).get(MyModel::class.java)
+
+        binding.NomPrenom.text = myModel.user?.name
+        binding.Email.text = myModel.user?.email
+        binding.phoneNumber.text = myModel.user?.phone
+        binding.Adresse.text = myModel.user?.address
+
+
+
 
         auth = FirebaseAuth.getInstance()
 
