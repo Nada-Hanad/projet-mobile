@@ -77,7 +77,7 @@ interface Endpoint {
 
 
     companion object {
-        private const val BASE_URL = "https://a7f8-105-235-128-22.eu.ngrok.io"
+        private const val BASE_URL = "https://870e-105-235-129-170.eu.ngrok.io"
         private var endpoint: Endpoint? = null
 
         fun createEndpoint(): Endpoint {

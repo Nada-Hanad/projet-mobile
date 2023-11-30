@@ -48,6 +48,7 @@
          <action
             android:id="@+id/action_profil_to_home"
             app:destination="@id/navigation_home" />
+
     </fragment>
     <fragment
         android:id="@+id/register"

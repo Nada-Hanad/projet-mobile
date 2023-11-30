@@ -51,22 +51,32 @@ class Profil : Fragment() {
         //   name="Hasni Zoumata"
         address=""
         //  email="jh_zoumata@esi.dz"
-        phone=""
+        phone="0552833250"
 
         val email = arguments?.getString("email")
         val name = arguments?.getString("name")
 
-        binding.NomPrenom.text = name
-        binding.Adresse.text = address
-        binding.Email.text = email
-        binding.phoneNumber.text = phone
+
 
         var myModel = ViewModelProvider(requireActivity()).get(MyModel::class.java)
 
+        if (myModel.user==null){
+            binding.NomPrenom.text = name
+            binding.Adresse.text = address
+            binding.Email.text = email
+            binding.phoneNumber.text = phone
+        }else{
+            binding.NomPrenom.text = myModel.user?.name
+            binding.Email.text = myModel.user?.email
+            binding.phoneNumber.text = myModel.user?.phone
+            binding.Adresse.text = myModel.user?.address
+
+        }
         binding.NomPrenom.text = myModel.user?.name
         binding.Email.text = myModel.user?.email
         binding.phoneNumber.text = myModel.user?.phone
         binding.Adresse.text = myModel.user?.address
+
 
 
 
